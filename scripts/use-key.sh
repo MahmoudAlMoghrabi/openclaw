@@ -57,12 +57,21 @@ fi
 # patch-config.js fixes all three (see that file for the why).
 node "$HERE/patch-config.js"
 
+# Prove the workshop MCP tool server (dice + weather) starts and lists its
+# tools: `mcp probe` opens a real MCP connection (docs.openclaw.ai/cli/mcp).
+# Non-fatal — everything else works without it.
+if "$CLI" mcp probe workshop-tools >/dev/null 2>&1; then
+  echo "MCP tools ready: roll_dice, get_weather."
+else
+  echo "  (MCP probe failed; the dice demo may be off. Debug with:"
+  echo "   $CLI mcp doctor workshop-tools --probe)"
+fi
+
 # Install the workshop skills. OpenClaw reads skills from ~/.openclaw/workspace/
 # skills (a COPY it makes), NOT from this repo, so the agent can't see them until
 # we install them explicitly. Non-fatal if already installed (re-runs).
-# (weather-reporter is the "real tools" demo: it directs the agent to its
-# built-in web_fetch tool. OpenClaw 2026.6.11 has no MCP support; custom
-# tools would need the Plugin SDK, overkill for a workshop.)
+# (weather-reporter is the built-in-tools demo: it directs the agent to its
+# own web_fetch tool. The MCP server above is the plugged-in-tools demo.)
 for skill in fortune-teller standup-writer my-first-skill weather-reporter; do
   "$CLI" skills install "$HERE/../skills/$skill" \
     || echo "  (skill '$skill' already installed or install skipped)"

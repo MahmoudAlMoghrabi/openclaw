@@ -80,9 +80,12 @@ is an agent.
 **4. Use a real tool.** Ask **"what's the weather in St. John's right
 now?"** The `weather-reporter` skill directs your agent to its built-in
 `web_fetch` tool, which pulls live data from the internet — something the
-model can't know from training. Open
-[skills/weather-reporter/SKILL.md](skills/weather-reporter/SKILL.md): plain
-instructions plus a built-in tool is all it takes.
+model can't know from training
+([skills/weather-reporter/SKILL.md](skills/weather-reporter/SKILL.md)).
+Then ask **"roll 3 dice"** — that one comes from a tool server we plugged in
+over MCP ([mcp/workshop-tools.js](mcp/workshop-tools.js), about a hundred
+readable lines). Built-in or plugged-in, tools are how agents touch the
+world.
 
 **Want more ideas?** Open [skills/EXAMPLES.md](skills/EXAMPLES.md) for a menu of
 fun and useful skills (an excuse generator, a pirate rewriter, a grammar fixer,

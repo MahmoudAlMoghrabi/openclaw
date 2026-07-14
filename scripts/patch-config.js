@@ -16,6 +16,7 @@
 "use strict";
 const fs = require("fs");
 const os = require("os");
+const path = require("path");
 
 // Single source of truth for the workshop model. Override with OPENCLAW_MODEL.
 // Primary: gemini-2.5-flash-lite ($0.10/$0.40). Overflow: gemini-3.1-flash-lite.
@@ -42,18 +43,28 @@ c.gateway.controlUi = Object.assign({}, c.gateway.controlUi, {
 });
 c.gateway.auth = { mode: "none" };
 
-// Self-heal: an earlier revision of this script injected `mcpServers` into
-// this file, which broke config validation. Strip it if it's still there.
+// Self-heal: an earlier revision of this script injected a root-level
+// `mcpServers` key, which the schema rejects ("<root>: Invalid input").
+// Strip it if it's still there.
 delete c.mcpServers;
 
-// NOTE on MCP: do NOT add an `mcpServers` key here. OpenClaw 2026.6.11
-// validates the config schema and rejects unknown root keys ("<root>:
-// Invalid input", gateway refuses to start) — confirmed in the July 14 dry
-// run. OpenClaw has no MCP support at all (docs.openclaw.ai); the "real
-// tools" demo is the weather-reporter skill + the built-in web_fetch tool.
+// Register the workshop MCP tool server (mcp/workshop-tools.js: roll_dice +
+// get_weather) under the DOCUMENTED key: mcp.servers.<name> with
+// command/args (see docs.openclaw.ai/cli/mcp, "Example config shape").
+// Root-level `mcpServers` is NOT valid — that mistake broke the gateway
+// config in the July 14 dry run.
+const repoRoot = path.resolve(__dirname, "..");
+c.mcp = c.mcp || {};
+c.mcp.servers = Object.assign({}, c.mcp.servers, {
+  "workshop-tools": {
+    command: "node",
+    args: [path.join(repoRoot, "mcp", "workshop-tools.js")],
+  },
+});
 
 fs.writeFileSync(cfgPath, JSON.stringify(c, null, 2));
 console.log(
   "patch-config: model=" + MODEL +
-  " origin=http://localhost:" + PORT + " auth=none"
+  " origin=http://localhost:" + PORT + " auth=none" +
+  " mcp.servers=workshop-tools"
 );
