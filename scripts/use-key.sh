@@ -57,6 +57,14 @@ fi
 # patch-config.js fixes all three (see that file for the why).
 node "$HERE/patch-config.js"
 
+# Give the agent a path to this repo. Its file tools resolve relative paths
+# against ~/.openclaw/workspace (its own home), NOT this checkout — so
+# "skills/guided-skill/roast-me.js" doesn't exist from the agent's point of
+# view. The symlink makes "repo/..." work in chat prompts, and files the
+# agent writes under repo/ appear in the attendee's file explorer.
+mkdir -p "$HOME/.openclaw/workspace"
+ln -sfn "$(cd "$HERE/.." && pwd)" "$HOME/.openclaw/workspace/repo" 2>/dev/null || true
+
 # Prove the workshop MCP tool server (dice + weather) starts and lists its
 # tools: `mcp probe` opens a real MCP connection (docs.openclaw.ai/cli/mcp).
 # Non-fatal — everything else works without it.

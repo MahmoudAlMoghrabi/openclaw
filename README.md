@@ -73,9 +73,10 @@ is a real, fixable issue). The loop is:
   yours.
 
 **3. Make it act.** So far the agent has only *talked*. Say **"read
-skills/guided-skill/roast-me.js yourself and roast it"** — it fetches the file
-without you pasting anything. Then say **"fix everything you roasted and save
-it as roast-me.fixed.js — show me the plan first."** Approve, and watch a new
+repo/skills/guided-skill/roast-me.js yourself and roast it"** — it fetches
+the file without you pasting anything (`repo/` is how your agent sees this
+folder). Then say **"fix everything you roasted and save it as
+repo/roast-me.fixed.js — show me the plan first."** Approve, and watch a new
 file appear in the file explorer. Talking about code is a chatbot; changing it
 is an agent.
 

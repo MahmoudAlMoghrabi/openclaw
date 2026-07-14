@@ -51,8 +51,9 @@ DONE? Test it:
   2. In WebChat: "roast this code" + paste any snippet
   3. Not funny enough? Too mean? Edit this file, save, run reload-skill.sh again, ask again.
      Iterating on instructions IS the skill-building workflow.
-  4. Make it ACT: say "read skills/guided-skill/roast-me.js yourself and roast it"
-     (no pasting!), then "fix everything you roasted and save it as
-     roast-me.fixed.js - show me the plan first". Approve, and watch the new
-     file appear. Your agent just took a real action.
+  4. Make it ACT: say "read repo/skills/guided-skill/roast-me.js yourself and
+     roast it" (no pasting! "repo/" is how the agent sees this folder), then
+     "fix everything you roasted and save it as repo/roast-me.fixed.js - show
+     me the plan first". Approve, and watch the new file appear. Your agent
+     just took a real action.
 -->
