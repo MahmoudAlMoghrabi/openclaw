@@ -8,12 +8,15 @@
   // Node 22.19+ is required by OpenClaw (24 is also fine). This image ships 22.
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
 
-  // OpenClaw's Control UI listens on 18789. Codespaces forwards it and opens it.
+  // OpenClaw's Control UI listens on 18789. Forward it silently: the gateway
+  // that starts at boot has no key yet, so auto-opening a browser here would
+  // show attendees a dead agent. use-key.sh opens the UI at the right moment
+  // (right after the key is registered and the gateway restarts).
   "forwardPorts": [18789],
   "portsAttributes": {
     "18789": {
       "label": "OpenClaw Control UI",
-      "onAutoForward": "openBrowser"
+      "onAutoForward": "silent"
     }
   },
 

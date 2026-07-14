@@ -9,5 +9,5 @@
   //
   // Kept only as a signpost so nobody re-adds config here expecting it to work.
   // The workshop model is the single-source-of-truth constant in
-  // scripts/patch-config.js. See BRIEF.md for the rationale and pricing.
+  // scripts/patch-config.js.
 }

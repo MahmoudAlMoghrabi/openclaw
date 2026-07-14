@@ -16,6 +16,7 @@
 "use strict";
 const fs = require("fs");
 const os = require("os");
+const path = require("path");
 
 // Single source of truth for the workshop model. Override with OPENCLAW_MODEL.
 // Primary: gemini-2.5-flash-lite ($0.10/$0.40). Overflow: gemini-3.1-flash-lite.
@@ -42,8 +43,23 @@ c.gateway.controlUi = Object.assign({}, c.gateway.controlUi, {
 });
 c.gateway.auth = { mode: "none" };
 
+// Register the workshop's MCP tool server (mcp/workshop-tools.js: dice +
+// live weather) so the agent has real tools beyond the chat.
+// DRY-RUN CHECK: the key below follows the common `mcpServers` convention.
+// Confirm this OpenClaw version picks it up (ask the agent to roll dice, or
+// look for the tools in the Control UI). If it doesn't, find the right
+// registration in `openclaw mcp --help` / docs.openclaw.ai and adjust here.
+const repoRoot = path.resolve(__dirname, "..");
+c.mcpServers = Object.assign({}, c.mcpServers, {
+  "workshop-tools": {
+    command: "node",
+    args: [path.join(repoRoot, "mcp", "workshop-tools.js")],
+  },
+});
+
 fs.writeFileSync(cfgPath, JSON.stringify(c, null, 2));
 console.log(
   "patch-config: model=" + MODEL +
-  " origin=http://localhost:" + PORT + " auth=none"
+  " origin=http://localhost:" + PORT + " auth=none" +
+  " mcp=workshop-tools"
 );

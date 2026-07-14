@@ -1,9 +1,9 @@
 # Heads-up email to attendees
 
-Send this a few days before the session. Before sending, fill in the three
-[BRACKETED] placeholders: date/time/location, the workshop repo link (the repo
-must be public or attendees cannot open it), and the contact email + reply-by
-day.
+Send this a few days before the session. Before sending, fill in the two
+[BRACKETED] placeholders: date/time/location, and the contact email + reply-by
+day. The workshop launch link is already in the email; the repo must be public
+before you send it or the link will not load for attendees.
 
 ---
 
@@ -27,10 +27,12 @@ early. Brand-new accounts sometimes need a quick phone verification, and you do
 not want to be doing that during the session.
 
 **2. Open this link once to make sure it loads on your laptop:**
-[WORKSHOP REPO LINK]
-If you are on a work laptop, some company networks block tools like this. If
-the page does not load, try a personal laptop, or let us know ahead of time so
-we can sort it out before the day.
+https://codespaces.new/MahmoudAlMoghrabi/openclaw?quickstart=1
+This is the same link you will use at the workshop; today, just check that the
+page loads (no need to click anything on it yet). If you are on a work laptop,
+some company networks block tools like this. If the page does not load, try a
+personal laptop, or let us know ahead of time so we can sort it out before the
+day.
 
 **3. Bring that same laptop, charged, with its charger,** and a modern browser
 (Chrome, Edge, or Firefox).

@@ -9,7 +9,8 @@ Pick one, and make it your skill. **How to use any of these:**
 5. In the chat, type **"use the my-first-skill skill on: ..."**
 
 Want more than one at a time? Make a new folder `skills/<your-name>/SKILL.md`,
-set `name:` to match, then run `./scripts/reload-skill.sh <your-name>`.
+set `name:` to match, then run `./scripts/reload-skill.sh` again — it picks up
+every skill folder automatically.
 
 Tip: one clear instruction beats five fuzzy ones. Keep it short.
 

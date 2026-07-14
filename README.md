@@ -12,8 +12,13 @@ you'll have taught it a brand-new skill *you* wrote. Just three things to start 
 
 ## 🚀 1. Open this in a Codespace
 
-You are probably already here. If not, click the green **Code** button on the
-GitHub page, then **Create codespace on main**. Give it about a minute to load.
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/MahmoudAlMoghrabi/openclaw?quickstart=1)
+
+Click the button above (it's the same link on the screen and in the event
+chat), then click the green **Create codespace** button on the page that
+opens. Everything — the repo, the settings, the tools — is already chosen for
+you. Give it about a minute to load. If you come back later, the same link
+reopens the Codespace you already made.
 
 ## 🔑 2. Drop in your key
 
@@ -30,9 +35,13 @@ Wait a few seconds until it says **All set.**
 
 ## 💬 3. Open your agent
 
-Click the **Ports** tab (next to the terminal), find port **18789**, and click
-the globe icon. A page opens asking you to connect, **leave the boxes empty and
-click Connect.** Then type "hello" in the chat.
+When the script says **All set**, your agent's page **opens in a new tab by
+itself** (the same link is printed in the terminal — Ctrl+Click it if no tab
+appeared). On that page, **leave the boxes empty and click Connect** — no
+token needed. Then type "hello" in the chat.
+
+> Backup route if the link won't open: click the **Ports** tab next to the
+> terminal, find port **18789**, and click the globe icon.
 
 If your agent replies, you are running a real AI agent. 🎉
 
@@ -54,26 +63,40 @@ through the 5 TODOs to make the agent roast pasted code (funny, but every burn
 is a real, fixable issue). The loop is:
 
 - **Edit** `skills/guided-skill/SKILL.md` and **save** (Ctrl+S).
-- In the terminal, run **`./scripts/reload-skill.sh guided-skill`** so your
-  agent picks up the change.
+- In the terminal, run **`./scripts/reload-skill.sh`** so your
+  agent picks up the change (it reloads every skill, no name needed).
 - **Refresh** your agent's browser tab.
 - In the chat, say **"roast this code"** and paste the sample from
   `skills/guided-skill/roast-me.js`. Then edit, reload, and retry to make it
   yours.
+
+**3. Make it act.** So far the agent has only *talked*. Say **"read
+skills/guided-skill/roast-me.js yourself and roast it"** — it fetches the file
+without you pasting anything. Then say **"fix everything you roasted and save
+it as roast-me.fixed.js — show me the plan first."** Approve, and watch a new
+file appear in the file explorer. Talking about code is a chatbot; changing it
+is an agent.
+
+**4. Use a real tool.** Ask **"roll 3 dice"** or **"what's the weather in
+St. John's right now?"** Those answers come from a tiny tool server in
+[mcp/workshop-tools.js](mcp/workshop-tools.js) — live data the model can't
+know from training. Open the file: about a hundred readable lines is all it
+takes to give an agent a new tool.
 
 **Want more ideas?** Open [skills/EXAMPLES.md](skills/EXAMPLES.md) for a menu of
 fun and useful skills (an excuse generator, a pirate rewriter, a grammar fixer,
 a quiz maker, and more), and [skills/stretch-ideas.md](skills/stretch-ideas.md)
 if you finish early.
 
-**Want the full walkthrough?** The complete, checkpoint-by-checkpoint guide is
-in [docs/ATTENDEE_GUIDE.md](docs/ATTENDEE_GUIDE.md), and the slide deck is at
-[docs/slides.html](docs/slides.html).
+**Follow along on the big screen.** The workshop slides are the walkthrough:
+they're on the projector, and you can open your own copy from
+[docs/slides.html](docs/slides.html) (or the slides link the facilitator
+shares) and click through at your own pace.
 
 Two things to watch:
 
 - **Save, then reload:** editing the file isn't enough on its own; run
-  `./scripts/reload-skill.sh guided-skill` (then refresh the tab) so the agent
+  `./scripts/reload-skill.sh` (then refresh the tab) so the agent
   sees changes.
 - **Do not touch the `---` lines or the words before the colons:** only edit
   after `description:` and in the body.

@@ -6,7 +6,9 @@
 # skills/<name>/SKILL.md does nothing until the copy is refreshed and the gateway
 # reloads it. This script does both.
 #
-# Usage:  ./scripts/reload-skill.sh [skill-name]     (defaults to my-first-skill)
+# Usage:
+#   ./scripts/reload-skill.sh                   reload EVERY skill in skills/
+#   ./scripts/reload-skill.sh <name> [name...]  reload just the named skill(s)
 set -euo pipefail
 
 CLI="openclaw"
@@ -15,26 +17,42 @@ if ! command -v "$CLI" >/dev/null 2>&1; then
 fi
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
-SKILL="${1:-my-first-skill}"
-DIR="$HERE/../skills/$SKILL"
-DEST="$HOME/.openclaw/workspace/skills/$SKILL"
+SKILLS_DIR="$HERE/../skills"
 
-if [ ! -d "$DIR" ]; then
-  echo "No skill folder at skills/$SKILL. Check the name."
-  exit 1
+# No names given? Reload every folder that holds a SKILL.md. One command,
+# nothing to remember, nothing left stale.
+if [ "$#" -eq 0 ]; then
+  NAMES=()
+  for d in "$SKILLS_DIR"/*/; do
+    [ -f "${d}SKILL.md" ] && NAMES+=("$(basename "$d")")
+  done
+  if [ "${#NAMES[@]}" -eq 0 ]; then
+    echo "No skills found in skills/."
+    exit 1
+  fi
+  set -- "${NAMES[@]}"
 fi
 
-echo "Reloading skill '$SKILL'..."
-# Re-install over the existing copy. Prefer --force; if this build doesn't accept
-# that flag, replace the copy cleanly (a fresh install always works).
-if ! "$CLI" skills install "$DIR" --force >/dev/null 2>&1; then
-  rm -rf "$DEST"
-  "$CLI" skills install "$DIR" >/dev/null
-fi
+for SKILL in "$@"; do
+  DIR="$SKILLS_DIR/$SKILL"
+  DEST="$HOME/.openclaw/workspace/skills/$SKILL"
 
-# Restart the gateway so the running agent loads the new version.
+  if [ ! -d "$DIR" ]; then
+    echo "No skill folder at skills/$SKILL. Check the name (skipping)."
+    continue
+  fi
+
+  echo "Reloading skill '$SKILL'..."
+  # Re-install over the existing copy. Prefer --force; if this build doesn't
+  # accept that flag, replace the copy cleanly (a fresh install always works).
+  if ! "$CLI" skills install "$DIR" --force >/dev/null 2>&1; then
+    rm -rf "$DEST"
+    "$CLI" skills install "$DIR" >/dev/null
+  fi
+done
+
+# One gateway restart loads every refreshed copy into the running agent.
 bash "$HERE/start-gateway.sh"
 
 echo ""
-echo "Done. Refresh your agent's browser tab, then try your skill again:"
-echo "    \"use the $SKILL skill\""
+echo "Done. Refresh your agent's browser tab, then ask for your skill in the chat."

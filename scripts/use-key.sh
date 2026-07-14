@@ -69,6 +69,30 @@ done
 # uses --force, replacing the keyless gateway that Codespaces starts at boot.
 bash "$HERE/start-gateway.sh"
 
+# Work out the Control UI's browser URL. Inside Codespaces every forwarded
+# port has a stable HTTPS URL built from these two env vars; anywhere else
+# (local testing) fall back to localhost.
+PORT="${OPENCLAW_PORT:-18789}"
+if [ -n "${CODESPACE_NAME:-}" ] && [ -n "${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-}" ]; then
+  UI_URL="https://${CODESPACE_NAME}-${PORT}.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}/"
+else
+  UI_URL="http://localhost:${PORT}/"
+fi
+
 echo ""
-echo "All set. Open the PORTS tab, find port 18789, and click the globe icon."
-echo "In the browser, leave the token and password fields blank and click Connect."
+echo "=================================================================="
+echo "  All set. Your agent lives here:"
+echo ""
+echo "  👉  $UI_URL"
+echo ""
+echo "  A tab should open by itself. If not, Ctrl+Click the link above."
+echo "  On the page: leave both boxes EMPTY and click Connect. (No token"
+echo "  needed, your Codespace is the key.)"
+echo "=================================================================="
+
+# Auto-open the Control UI in the attendee's own browser. Codespaces sets
+# $BROWSER to a helper that opens URLs on the user's machine; if it's absent
+# (local run), the printed link above is the fallback.
+if [ -n "${BROWSER:-}" ]; then
+  "$BROWSER" "$UI_URL" >/dev/null 2>&1 || true
+fi

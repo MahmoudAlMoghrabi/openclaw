@@ -57,8 +57,8 @@ h1.ink{color:var(--yellow)}
 .tag{display:inline-block;background:var(--black);color:var(--yellow);font-weight:800;padding:.5vh 1.1vw;border-radius:30px;
   font-size:.9vw;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.6vh;box-shadow:var(--hard-sm)}
 h2{font-size:2.9vw;font-weight:800;text-transform:uppercase;color:var(--ink);line-height:1.02;letter-spacing:-.5px}
-.lead{font-size:1.25vw;color:#3a2b4d;line-height:1.4;font-weight:500;max-width:46ch;margin-top:1.4vh}
-.k{color:var(--purple);font-weight:800;background:#efe6ff;padding:0 .4vw;border-radius:6px}
+.lead{font-size:1.25vw;color:#3a2b4d;line-height:1.5;font-weight:500;max-width:64ch;margin-top:1.6vh}
+.k{color:var(--purple);font-weight:800;background:#efe6ff;padding:.1vh .4vw;border-radius:6px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .mono{font-family:"Press Start 2P",Consolas,monospace;font-size:.85em}
 b{font-weight:800}
 
@@ -66,6 +66,7 @@ b{font-weight:800}
 .btn{font-family:"Baloo 2";font-weight:800;border:4px solid var(--black);border-radius:14px;background:var(--yellow);
   color:var(--ink);padding:1vh 1.6vw;font-size:1.1vw;cursor:pointer;box-shadow:var(--hard-sm);transition:transform .08s,box-shadow .08s}
 .btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--black)}
+a.btn{text-decoration:none;display:inline-block}
 
 /* toggle */
 .toggle-wrap{display:flex;gap:1vw;margin:1.8vh 0}
@@ -179,10 +180,6 @@ b{font-weight:800}
 #hint{position:fixed;bottom:14px;right:16px;z-index:70;color:#d9cffb;font-size:12px;font-weight:600;opacity:.75}
 kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7px;font-size:11px}
 
-/* win banner */
-#win{position:fixed;inset:0;z-index:78;display:none;align-items:center;justify-content:center;flex-direction:column;pointer-events:none}
-#win .b{font-family:"Press Start 2P";font-size:5vw;color:var(--yellow);text-shadow:5px 5px 0 var(--black);animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 </style>
 </head>
 <body>
@@ -211,8 +208,6 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
 </svg>
 <div class="speech" id="speech"></div>
 
-<div id="win"><div class="b arcade">YOU WIN!</div></div>
-
 <div id="stage"><div class="deck" id="deck">
 
 <!-- 1 TITLE -->
@@ -221,7 +216,11 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   <h1 class="pop" style="font-size:5vw">BUILD A REAL<br>AI AGENT 🦞</h1>
   <p class="pop tag" style="font-size:1.1vw;margin-top:2vh">90 minutes · powered by OpenClaw × genesis</p>
   <p class="pop" style="color:#fff;font-weight:700;font-size:1.5vw;margin-top:2vh;text-shadow:2px 2px 0 var(--black)">No installs. Runs in your browser. No code.</p>
-  <button class="pop btn" style="margin-top:2.6vh;align-self:flex-start;font-size:1.3vw" onclick="sendPromptFake()">PRESS START ▶</button>
+  <div class="pop" style="margin-top:2.6vh;display:flex;gap:1.2vw;align-self:flex-start">
+    <a class="btn" style="font-size:1.3vw;background:var(--lime)" href="https://codespaces.new/MahmoudAlMoghrabi/openclaw?quickstart=1" target="_blank" rel="noopener">🚀 LAUNCH YOUR CODESPACE</a>
+    <button class="btn" style="font-size:1.3vw" onclick="sendPromptFake()">PRESS START ▶</button>
+  </div>
+  <p class="pop" style="color:#d9cffb;font-weight:600;font-size:1vw;margin-top:1.2vh">Hit LAUNCH first — it builds in a new tab (about a minute) while you watch the intro here.</p>
 </section>
 
 <!-- 2 CHATBOT WITH HANDS -->
@@ -246,19 +245,21 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   <div class="pop"><span class="tag">Your next 90 minutes</span></div>
   <h1 class="pop ink" style="font-size:3.4vw;color:var(--ink);text-shadow:3px 3px 0 #fff">THE QUEST 🗺️</h1>
   <p class="pop" style="font-weight:700;color:#5a4a1a;font-size:1.1vw;margin:.6vh 0">Tap each quest to complete it and score points.</p>
-  <ul class="quest pop" style="max-width:66%">
+  <ul class="quest pop" style="max-width:74%">
     <li data-a data-pts="20"><span class="n">1</span><span><span class="t">Meet your agent</span> <span class="d">say hi</span></span></li>
     <li data-a data-pts="20"><span class="n">2</span><span><span class="t">Try a skill</span> <span class="d">watch it work</span></span></li>
     <li data-a data-pts="20"><span class="n">3</span><span><span class="t">Build your own</span> <span class="d">plain English</span></span></li>
-    <li data-a data-pts="20"><span class="n">4</span><span><span class="t">Let the agent build one</span> <span class="d">propose and approve</span></span></li>
-    <li data-a data-pts="20"><span class="n">5</span><span><span class="t">Show off</span> <span class="d">demos and vote</span></span></li>
+    <li data-a data-pts="20"><span class="n">4</span><span><span class="t">Make it act</span> <span class="d">it fixes real code</span></span></li>
+    <li data-a data-pts="20"><span class="n">5</span><span><span class="t">Call a real tool</span> <span class="d">dice + live weather</span></span></li>
+    <li data-a data-pts="20"><span class="n">6</span><span><span class="t">Let the agent build one</span> <span class="d">propose and approve</span></span></li>
+    <li data-a data-pts="20"><span class="n">7</span><span><span class="t">Show off</span> <span class="d">demos and vote</span></span></li>
   </ul>
 </section>
 
 <!-- 4 KEEP IT PUBLIC -->
 <section class="slide bg-red">
-  <div class="pop card-lg" style="max-width:70%">
-    <span class="tag" style="background:var(--red);color:#fff">The one hard rule</span>
+  <div class="pop card-lg" style="max-width:82%">
+    <span class="tag" style="background:var(--red);color:#fff">THE ONE HARD RULE</span>
     <h2>Keep it public 🔓</h2>
     <p class="lead">Everything you type goes to a cloud AI service on a <b>shared account</b>. So keep it public: <b>no confidential work, no client info, no personal data.</b> That is the only hard rule.</p>
   </div>
@@ -271,9 +272,9 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   <h1 class="pop" style="font-size:3.2vw">3 MOVES TO GO LIVE ⚡</h1>
   <div class="loop-wrap pop" style="align-items:stretch;margin-top:1.4vh">
     <div class="steps" style="flex:1.3">
-      <div class="step" data-step data-pts="15"><div class="chk">✓</div><div><span class="num2">1</span> <b>Open a Codespace</b><p>Green Code button, then Create codespace on main. About a minute.</p></div></div>
+      <div class="step" data-step data-pts="15"><div class="chk">✓</div><div><span class="num2">1</span> <b>Open a Codespace</b><p><a href="https://codespaces.new/MahmoudAlMoghrabi/openclaw?quickstart=1" target="_blank" rel="noopener" style="color:var(--purple);font-weight:800">Click here to launch it</a> (opens a new tab), then hit the green Create codespace button. Already did it from the first slide? Tick and move on.</p></div></div>
       <div class="step" data-step data-pts="15"><div class="chk">✓</div><div><span class="num2">2</span> <b>Drop in your key</b><p>Run <span class="mono">./scripts/use-key.sh</span>, then paste your key when asked. It stays hidden. Wait for "All set."</p></div></div>
-      <div class="step" data-step data-pts="15"><div class="chk">✓</div><div><span class="num2">3</span> <b>Meet your agent</b><p>Ports tab, port 18789, globe icon. Leave boxes empty, Connect, say hi.</p></div></div>
+      <div class="step" data-step data-pts="15"><div class="chk">✓</div><div><span class="num2">3</span> <b>Meet your agent</b><p>Its tab opens by itself when the script finishes (the link is also printed in the terminal). Leave both boxes empty, hit Connect, say hi.</p></div></div>
     </div>
     <div class="term" style="flex:1"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div><div><span style="color:#7fd8ff">you@codespace</span>:~$ <span id="termType"></span><span id="cursor">▋</span></div></div>
   </div>
@@ -282,13 +283,17 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
 
 <!-- 6 WATCH A SKILL -->
 <section class="slide bg-pink">
-  <div class="pop card-lg" style="max-width:66%">
+  <div class="pop card-lg" style="max-width:84%">
     <span class="tag" style="background:var(--pink);color:#fff">Level 2 · First skill</span>
     <h2>Watch a skill work ✨</h2>
-    <p class="lead">Your agent already knows one, called <span class="k mono">fortune-teller</span>. Ask it <span class="k">"tell me my tech fortune for the week"</span> and watch what it does.</p>
-    <p class="lead">It turns your mess into a clean standup update. <b>That is a skill.</b></p>
+    <p class="lead">Your agent comes with skills already installed. Try one — or both:</p>
+    <div class="compare" style="margin-top:1.2vh">
+      <div class="col" style="background:#fff2c9"><h4>🔮 fortune-teller</h4><ul><li>Say <b>"tell me my tech fortune for the week"</b></li></ul></div>
+      <div class="col" style="background:#e0f7ff"><h4>📝 standup-writer</h4><ul><li>Paste messy notes about your day and ask for <b>a standup</b></li></ul></div>
+    </div>
+    <p class="lead" style="margin-top:1.4vh">Each trick is one Markdown file — the file <b>is</b> the skill. Peek behind the curtain:</p>
+    <p style="margin-top:.9vh"><span class="k mono" style="font-size:1vw">skills/fortune-teller/SKILL.md</span></p>
   </div>
-  <div class="pop" style="align-self:flex-start;margin-top:2vh;background:var(--black);color:var(--yellow);border-radius:16px;padding:1.2vh 1.6vw;font-weight:800;font-size:1.6vw;box-shadow:var(--hard)">💬 "use the skill"</div>
 </section>
 
 <!-- 7 MAGIC LOOP -->
@@ -300,9 +305,9 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
     <div class="loop-steps">
       <div class="ls" data-ls><span class="ln">1</span> Edit your <b>&nbsp;SKILL.md</b></div>
       <div class="ls" data-ls><span class="ln">2</span> Save <span class="mono">&nbsp;Ctrl+S</span></div>
-      <div class="ls" data-ls><span class="ln">3</span> Run <b>&nbsp;reload-skill.sh</b></div>
+      <div class="ls" data-ls><span class="ln">3</span> Run <b>&nbsp;./scripts/reload-skill.sh</b></div>
       <div class="ls" data-ls><span class="ln">4</span> Refresh the tab</div>
-      <div class="ls" data-ls><span class="ln">5</span> Say <b>&nbsp;"use the skill"</b></div>
+      <div class="ls" data-ls><span class="ln">5</span> Ask for it in the chat</div>
     </div>
   </div>
 </section>
@@ -311,23 +316,49 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
 <section class="slide bg-purple">
   <div class="pop card-lg">
     <span class="tag">Level 4 · Your turn</span>
-    <h2>Make it yours 🎨</h2>
-    <p class="lead">Open <span class="k mono">my-first-skill/SKILL.md</span> and change just two lines:</p>
-    <div class="compare" style="margin-top:1.4vh">
-      <div class="col" style="background:#fff2c9"><h4>✏️ The description</h4><ul><li>One sentence on what it does.</li></ul></div>
-      <div class="col" style="background:#e0f7ff"><h4>📝 The instructions</h4><ul><li>What the agent should do.</li></ul></div>
+    <h2>Build your own 🎨</h2>
+    <p class="lead">Three ways in — pick whichever fits you:</p>
+    <div class="compare" style="margin-top:1.2vh">
+      <div class="col" style="background:#fff2c9"><h4>🔥 Guided: code-roaster</h4><ul><li>Fill the 5 TODOs in <b>skills/guided-skill/SKILL.md</b></li><li>Test on <b>roast-me.js</b> · answer key: <b>SOLUTION.md</b></li></ul></div>
+      <div class="col" style="background:#e0f7ff"><h4>🧱 From scratch</h4><ul><li><b>skills/my-first-skill/SKILL.md</b></li><li>Name it, describe it, write the instructions</li></ul></div>
+      <div class="col" style="background:#ffe3ef"><h4>💡 Idea menu</h4><ul><li><b>skills/EXAMPLES.md</b> + <b>stretch-ideas.md</b></li><li>Excuse generator, pirate rewriter, quiz maker...</li></ul></div>
     </div>
-    <p class="lead" style="margin-top:1.2vh">Then run the loop and say <span class="k">"use the my-first-skill skill."</span> Do not touch the <span class="mono">---</span> lines.</p>
+    <p class="lead" style="margin-top:1.2vh">Whichever you pick: the <b>description is the trigger</b> (vague = never fires), and the loop is the same. Do not touch the <span class="mono">---</span> lines.</p>
   </div>
 </section>
 
-<!-- 9 AGENT BUILDS ONE -->
+<!-- 9 MAKE IT ACT -->
+<section class="slide bg-red">
+  <div class="pop card-lg" style="max-width:84%">
+    <span class="tag" style="background:var(--red);color:#fff">Level 5 · Hands out</span>
+    <h2>Make it act 🙌</h2>
+    <p class="lead">So far your agent has only <i>talked</i>. Time for hands. Say: <span class="k">"Read skills/guided-skill/roast-me.js yourself and roast it."</span> It fetches the file — you pasted nothing.</p>
+    <p class="lead">Then: <span class="k">"Fix everything you roasted and save it as roast-me.fixed.js — show me the plan first."</span> Approve, then watch the file explorer: <b>a new file appears that you didn't write.</b></p>
+    <p class="lead">Talking about code is a chatbot. <b>Changing it is an agent.</b></p>
+  </div>
+</section>
+
+<!-- 10 REAL TOOLS -->
+<section class="slide bg-pink">
+  <div class="pop card-lg" style="max-width:84%">
+    <span class="tag" style="background:var(--pink);color:#fff">Level 6 · Real tools</span>
+    <h2>Call a real tool 🎲🌦️</h2>
+    <p class="lead">Your agent has a tool server plugged in — <span class="k mono">mcp/workshop-tools.js</span>, about 100 lines you can open and read. Try both tools:</p>
+    <div class="compare" style="margin-top:1.2vh">
+      <div class="col" style="background:#fff2c9"><h4>🎲 roll_dice</h4><ul><li>Say <b>"roll 3 dice"</b> — real randomness, works even offline</li></ul></div>
+      <div class="col" style="background:#e0f7ff"><h4>🌦️ get_weather</h4><ul><li>Say <b>"what's the weather in St. John's right now?"</b> — live data</li></ul></div>
+    </div>
+    <p class="lead" style="margin-top:1.2vh">The model was trained months ago — it <b>cannot</b> know today's weather. Its <b>tools</b> can. That's why agents beat chatbots.</p>
+  </div>
+</section>
+
+<!-- 11 AGENT BUILDS ONE -->
 <section class="slide bg-teal">
-  <div class="pop card-lg" style="max-width:66%">
-    <span class="tag">Level 5 · Meta mode</span>
+  <div class="pop card-lg" style="max-width:82%">
+    <span class="tag">Level 7 · Meta mode</span>
     <h2>Let the agent build one 🤯</h2>
-    <p class="lead">Open the <span class="k">Skill Workshop</span> panel. Describe what you want; the agent drafts the whole skill.</p>
-    <p class="lead">Then <b>you approve it</b>. Nothing installs until a human says yes. The agent proposes, you decide.</p>
+    <p class="lead">In the chat, describe a skill you want, and add the magic words: <span class="k">"show it to me first — do not save any files until I approve."</span></p>
+    <p class="lead">Read its draft like a code review, demand <b>one change</b>, then approve — and watch <span class="k mono">skills/</span> in the file explorer: your agent writes its own new capability. The agent proposes, you decide.</p>
   </div>
   <div class="pop" style="align-self:flex-start;margin-top:2vh;display:flex;gap:1vw">
     <span style="background:var(--purple);color:#fff;border:4px solid var(--black);border-radius:12px;padding:.8vh 1.2vw;font-weight:800;font-size:1.3vw;box-shadow:var(--hard-sm)">Propose</span>
@@ -336,7 +367,7 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   </div>
 </section>
 
-<!-- 10 STUCK -->
+<!-- 12 STUCK -->
 <section class="slide bg-yellow">
   <div class="pop"><span class="tag">Continue?</span></div>
   <h1 class="pop ink" style="font-size:3.2vw;color:var(--ink);text-shadow:3px 3px 0 #fff">STUCK? IT IS NOT YOU 🛟</h1>
@@ -347,23 +378,34 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   </div>
 </section>
 
-<!-- 11 SUPERPOWERS -->
+<!-- 13 SUPERPOWERS -->
 <section class="slide bg-dark">
   <div class="pop"><span class="tag">Why it matters</span></div>
   <h1 class="pop" style="font-size:3vw">5 SUPERPOWERS ⚡</h1>
   <div class="super-wrap pop" style="margin-top:1vh">
     <ul class="super-list" id="superList">
-      <li data-sp><span class="swatch" style="background:#6C2BD9"></span>🛠️ Uses real tools</li>
-      <li data-sp><span class="swatch" style="background:#FF3B5C"></span>⚡ Takes real actions</li>
+      <li data-sp><span class="swatch" style="background:#6C2BD9"></span>🛠️ Uses real tools — it called a live weather API</li>
+      <li data-sp><span class="swatch" style="background:#FF3B5C"></span>⚡ Takes real actions — it fixed the code</li>
       <li data-sp><span class="swatch" style="background:#12B886"></span>📋 Follows your rules</li>
-      <li data-sp><span class="swatch" style="background:#FFC300"></span>🎓 Learns new skills</li>
+      <li data-sp><span class="swatch" style="background:#FFC300"></span>🎓 Learns new skills — it even wrote one</li>
       <li data-sp><span class="swatch" style="background:#1FA8E0"></span>🔁 Repeats on demand</li>
     </ul>
     <div class="fan"><svg viewBox="0 0 400 230" id="fanSvg"></svg></div>
   </div>
 </section>
 
-<!-- 12 FINAL -->
+<!-- 14 BEFORE YOU LEAVE -->
+<section class="slide bg-red">
+  <div class="pop card-lg" style="max-width:84%">
+    <span class="tag" style="background:var(--red);color:#fff">Save game 💾</span>
+    <h2>Before you leave 🎒</h2>
+    <p class="lead"><b>Take your skills home.</b> They are just Markdown files: copy <span class="k mono">skills/.../SKILL.md</span> anywhere. They work in any OpenClaw install.</p>
+    <p class="lead"><b>Your workshop key dies tonight.</b> To keep playing at home, get your own free key at <span class="k">aistudio.google.com</span> and re-run <span class="k mono">use-key.sh</span>.</p>
+    <p class="lead"><b>Done with the Codespace?</b> Delete it at <span class="k">github.com/codespaces</span> — or keep it to play; it stops on its own when idle.</p>
+  </div>
+</section>
+
+<!-- 15 FINAL -->
 <section class="slide bg-purple">
   <div class="pop" style="font-size:5vw">🦞🎉</div>
   <h1 class="pop" style="font-size:4.6vw">NOW GO BUILD<br>SOMETHING WEIRD.</h1>
@@ -451,7 +493,7 @@ let questDone=0;
 document.querySelectorAll('[data-a]').forEach(li=>li.onclick=e=>{
   if(li.classList.contains('done'))return;
   li.classList.add('done');burst(e.clientX,e.clientY,24);addScore(+li.dataset.pts,e.clientX,e.clientY);
-  questDone++;if(questDone===5)badge('🏆','Quest Mapped');
+  questDone++;if(questDone===7)badge('🏆','Quest Mapped');
 });
 /* setup steps */
 let stepDone=0;
@@ -466,7 +508,7 @@ let termTimer=null;
 function runTerm(){const el=document.getElementById('termType');if(!el)return;
   const full='./scripts/use-key.sh';let i=0;clearInterval(termTimer);el.innerHTML='';
   termTimer=setInterval(()=>{if(i<=full.length){el.textContent=full.slice(0,i);i++;}
-    else{clearInterval(termTimer);el.innerHTML=full+'<br>🔑 paste your key (hidden) ••••••<br><span class="ok">✓ All set.</span>';}},60);}
+    else{clearInterval(termTimer);el.innerHTML=full+'<br>🔑 paste your key (hidden) ••••••<br><span class="ok">✓ All set → your agent opens in a new tab</span>';}},60);}
 
 /* magic loop */
 const loopNodes=document.getElementById('loopNodes');
@@ -514,16 +556,11 @@ function runFan(){wedges.forEach((w,i)=>{w.style.transform='scaleY(0)';setTimeou
   spLis.forEach((l,i)=>setTimeout(()=>l.classList.add('on'),110*i+300));}
 
 /* per-slide */
-let winShown=false;
 function onEnter(i){
   if(i===4)runTerm();
   if(i===6)runLoop();else clearInterval(loopTimer);
-  if(i===10)runFan();
-  if(i===11&&!winShown){winShown=true;badge('🎖️','Agent Builder');
-    const w=document.getElementById('win');w.style.display='flex';
-    let n=0;const iv=setInterval(()=>{burst(Math.random()*innerWidth,Math.random()*innerHeight*.5,40);if(++n>10)clearInterval(iv);},180);
-    setTimeout(()=>w.style.display='none',2600);}
-  const quips={1:'A chatbot with hands! 🤖',2:'Pick your quests! 🗺️',4:'Boot it up! ⚡',6:'Save, then reload! 🔁',10:'Pow! Superpowers! ⚡'};
+  if(i===12)runFan();
+  const quips={1:'A chatbot with hands! 🤖',2:'Pick your quests! 🗺️',4:'Boot it up! ⚡',6:'Save, then reload! 🔁',8:'Hands out! 🙌',9:'Roll the dice! 🎲',12:'Pow! Superpowers! ⚡'};
   if(quips[i])mascotSay(quips[i]);
 }
 setInterval(()=>{const c=document.getElementById('cursor');if(c)c.style.opacity=c.style.opacity==='0'?'1':'0';},500);
