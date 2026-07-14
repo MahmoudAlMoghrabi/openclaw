@@ -34,7 +34,13 @@ const TOOLS = [
     inputSchema: {
       type: "object",
       properties: {
-        city: { type: "string", description: "City name, e.g. 'St. John\\'s'" },
+        city: {
+          type: "string",
+          description:
+            "Plain city name, e.g. 'St. John's'. Optionally add a region " +
+            "after a comma ('St. John's, Canada') — but never a full " +
+            "'City, Province, Country' address.",
+        },
       },
       required: ["city"],
     },
@@ -50,14 +56,31 @@ function rollDice(args) {
 }
 
 async function getWeather(args) {
-  const city = String(args.city || "").trim();
-  if (!city) return "No city given. Ask the user which city they mean.";
+  const raw = String(args.city || "").trim();
+  if (!raw) return "No city given. Ask the user which city they mean.";
+  // Models often pass "City, Province, Country". The geocoder only matches
+  // plain place names, so search on the first segment and use the rest to
+  // pick the right result (e.g. the Canadian St. John's, not the US one).
+  const parts = raw.split(",").map((s) => s.trim()).filter(Boolean);
+  const city = parts[0];
+  const hint = parts.slice(1).join(", ").toLowerCase();
   const geoUrl =
-    "https://geocoding-api.open-meteo.com/v1/search?count=1&name=" +
+    "https://geocoding-api.open-meteo.com/v1/search?count=5&name=" +
     encodeURIComponent(city);
   const geo = await (await fetchWithTimeout(geoUrl)).json();
-  const place = geo && geo.results && geo.results[0];
-  if (!place) return `Could not find a city called "${city}".`;
+  const results = (geo && geo.results) || [];
+  if (!results.length) {
+    return `Could not find a city called "${city}". Retry with just the plain city name.`;
+  }
+  let place = results[0];
+  if (hint) {
+    const match = results.find((r) =>
+      [r.admin1, r.country, r.country_code]
+        .filter(Boolean)
+        .some((f) => hint.includes(String(f).toLowerCase()))
+    );
+    if (match) place = match;
+  }
   const wxUrl =
     "https://api.open-meteo.com/v1/forecast?current_weather=true" +
     `&latitude=${place.latitude}&longitude=${place.longitude}`;
@@ -72,7 +95,9 @@ async function getWeather(args) {
 }
 
 function fetchWithTimeout(url) {
-  return fetch(url, { signal: AbortSignal.timeout(6000) });
+  // 12s: Codespace egress to open-meteo is occasionally slow; a tight
+  // timeout here turns a slow response into a scary failure for attendees.
+  return fetch(url, { signal: AbortSignal.timeout(12000) });
 }
 
 // ---- minimal MCP-over-stdio plumbing --------------------------------------
