@@ -6,6 +6,8 @@
 
 **A hands-on workshop, powered by [OpenClaw](https://openclaw.ai)** · No installs · runs in your browser · about 90 minutes
 
+📽️ **Workshop slides:** [mahmoudalmoghrabi.github.io/openclaw/slides.html](https://mahmoudalmoghrabi.github.io/openclaw/slides.html)
+
 Welcome! Everything is already installed for you, **no setup, no code.** In a few
 minutes you'll have your own AI agent running right in your browser. By the end,
 you'll have taught it a brand-new skill *you* wrote. Just three things to start 👇
@@ -93,9 +95,11 @@ a quiz maker, and more), and [skills/stretch-ideas.md](skills/stretch-ideas.md)
 if you finish early.
 
 **Follow along on the big screen.** The workshop slides are the walkthrough:
-they're on the projector, and you can open your own copy from
-[docs/slides.html](docs/slides.html) (or the slides link the facilitator
-shares) and click through at your own pace.
+they're on the projector, and you can open your own copy at
+**[mahmoudalmoghrabi.github.io/openclaw/slides.html](https://mahmoudalmoghrabi.github.io/openclaw/slides.html)**
+and click through at your own pace — or scan this with your phone:
+
+<img src="docs/slides-qr.png" alt="QR code linking to the workshop slides" width="170" />
 
 Two things to watch:
 
