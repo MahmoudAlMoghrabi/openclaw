@@ -102,9 +102,19 @@ echo "  On the page: leave both boxes EMPTY and click Connect. (No token"
 echo "  needed, your Codespace is the key.)"
 echo "=================================================================="
 
-# Auto-open the Control UI in the attendee's own browser. Codespaces sets
-# $BROWSER to a helper that opens URLs on the user's machine; if it's absent
-# (local run), the printed link above is the fallback.
-if [ -n "${BROWSER:-}" ]; then
+# Auto-open the Control UI in the attendee's own browser — but only on the
+# FIRST successful run. Re-runs would open a second tab, and two live tabs
+# on the same agent race each other ("reply session initialization
+# conflicted"). Codespaces sets $BROWSER to a helper that opens URLs on the
+# user's machine; if it's absent (local run), the printed link is the
+# fallback.
+OPENED_MARKER="$HOME/.openclaw/.workshop-ui-opened"
+if [ -n "${BROWSER:-}" ] && [ ! -f "$OPENED_MARKER" ]; then
   "$BROWSER" "$UI_URL" >/dev/null 2>&1 || true
+  touch "$OPENED_MARKER"
+elif [ -f "$OPENED_MARKER" ]; then
+  echo ""
+  echo "  (Not opening a new tab: you already have one. Keep just ONE agent"
+  echo "   tab open — two tabs on the same agent conflict. Refresh the tab"
+  echo "   you have, or Ctrl+Click the link above if you closed it.)"
 fi
