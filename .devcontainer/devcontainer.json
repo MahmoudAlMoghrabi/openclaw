@@ -1,0 +1,26 @@
+{
+  // One-click workshop environment. When an attendee creates a Codespace from
+  // this repo, OpenClaw is installed and the gateway starts on its own. The
+  // attendee then runs scripts/use-key.sh, which registers their key, sets the
+  // workshop model + control-UI origin + open auth, and restarts the gateway.
+  "name": "OpenClaw Workshop",
+
+  // Node 22.19+ is required by OpenClaw (24 is also fine). This image ships 22.
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
+
+  // OpenClaw's Control UI listens on 18789. Codespaces forwards it and opens it.
+  "forwardPorts": [18789],
+  "portsAttributes": {
+    "18789": {
+      "label": "OpenClaw Control UI",
+      "onAutoForward": "openBrowser"
+    }
+  },
+
+  // Runs once when the Codespace is first built: install OpenClaw + config.
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+
+  // Runs every time the Codespace starts: bring the gateway up in the background
+  // (Codespaces has no systemd, so it cannot auto-start the normal way).
+  "postStartCommand": "bash scripts/start-gateway.sh"
+}

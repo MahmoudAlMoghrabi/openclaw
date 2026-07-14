@@ -1,0 +1,13 @@
+{
+  // ------------------------------------------------------------------------
+  // NOTE (2026-07): THIS FILE IS NOT READ BY OpenClaw 2026.6.11.
+  // ------------------------------------------------------------------------
+  // OpenClaw's real config lives at ~/.openclaw/openclaw.json, which
+  // `openclaw onboard` creates. The workshop's model, control-UI origin, and
+  // auth settings are applied by scripts/patch-config.js right after onboarding
+  // (see scripts/use-key.sh). Editing this file has no effect.
+  //
+  // Kept only as a signpost so nobody re-adds config here expecting it to work.
+  // The workshop model is the single-source-of-truth constant in
+  // scripts/patch-config.js. See BRIEF.md for the rationale and pricing.
+}

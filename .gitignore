@@ -1,0 +1,10 @@
+node_modules/
+*.log
+.env
+.env.*
+/tmp/
+
+# Provisioned secrets and run artifacts: never commit these
+keys/keys.csv
+keys/*.csv
+keys/projects.txt
