@@ -77,11 +77,12 @@ it as roast-me.fixed.js — show me the plan first."** Approve, and watch a new
 file appear in the file explorer. Talking about code is a chatbot; changing it
 is an agent.
 
-**4. Use a real tool.** Ask **"roll 3 dice"** or **"what's the weather in
-St. John's right now?"** Those answers come from a tiny tool server in
-[mcp/workshop-tools.js](mcp/workshop-tools.js) — live data the model can't
-know from training. Open the file: about a hundred readable lines is all it
-takes to give an agent a new tool.
+**4. Use a real tool.** Ask **"what's the weather in St. John's right
+now?"** The `weather-reporter` skill directs your agent to its built-in
+`web_fetch` tool, which pulls live data from the internet — something the
+model can't know from training. Open
+[skills/weather-reporter/SKILL.md](skills/weather-reporter/SKILL.md): plain
+instructions plus a built-in tool is all it takes.
 
 **Want more ideas?** Open [skills/EXAMPLES.md](skills/EXAMPLES.md) for a menu of
 fun and useful skills (an excuse generator, a pirate rewriter, a grammar fixer,

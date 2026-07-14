@@ -250,7 +250,7 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
     <li data-a data-pts="20"><span class="n">2</span><span><span class="t">Try a skill</span> <span class="d">watch it work</span></span></li>
     <li data-a data-pts="20"><span class="n">3</span><span><span class="t">Build your own</span> <span class="d">plain English</span></span></li>
     <li data-a data-pts="20"><span class="n">4</span><span><span class="t">Make it act</span> <span class="d">it fixes real code</span></span></li>
-    <li data-a data-pts="20"><span class="n">5</span><span><span class="t">Call a real tool</span> <span class="d">dice + live weather</span></span></li>
+    <li data-a data-pts="20"><span class="n">5</span><span><span class="t">Call a real tool</span> <span class="d">live weather, fetched not guessed</span></span></li>
     <li data-a data-pts="20"><span class="n">6</span><span><span class="t">Let the agent build one</span> <span class="d">propose and approve</span></span></li>
     <li data-a data-pts="20"><span class="n">7</span><span><span class="t">Show off</span> <span class="d">demos and vote</span></span></li>
   </ul>
@@ -342,13 +342,14 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
 <section class="slide bg-pink">
   <div class="pop card-lg" style="max-width:84%">
     <span class="tag" style="background:var(--pink);color:#fff">Level 6 · Real tools</span>
-    <h2>Call a real tool 🎲🌦️</h2>
-    <p class="lead">Your agent has a tool server plugged in — <span class="k mono">mcp/workshop-tools.js</span>, about 100 lines you can open and read. Try both tools:</p>
+    <h2>Call a real tool 🌦️</h2>
+    <p class="lead">Your agent ships with real tools — <b>read, write, exec, web_fetch</b> — and a skill can tell it <i>when</i> to reach for them. Try the one we installed:</p>
     <div class="compare" style="margin-top:1.2vh">
-      <div class="col" style="background:#fff2c9"><h4>🎲 roll_dice</h4><ul><li>Say <b>"roll 3 dice"</b> — real randomness, works even offline</li></ul></div>
-      <div class="col" style="background:#e0f7ff"><h4>🌦️ get_weather</h4><ul><li>Say <b>"what's the weather in St. John's right now?"</b> — live data</li></ul></div>
+      <div class="col" style="background:#fff2c9"><h4>🌦️ You say</h4><ul><li><b>"what's the weather in St. John's right now?"</b></li></ul></div>
+      <div class="col" style="background:#e0f7ff"><h4>🧠 It does</h4><ul><li>The <b>weather-reporter</b> skill sends it to <b>web_fetch</b> — live data from the internet</li></ul></div>
     </div>
-    <p class="lead" style="margin-top:1.2vh">The model was trained months ago — it <b>cannot</b> know today's weather. Its <b>tools</b> can. That's why agents beat chatbots.</p>
+    <p class="lead" style="margin-top:1.2vh">The model was trained months ago — it <b>cannot</b> know today's weather. Its <b>tools</b> can. Peek at the skill: instructions + a tool = an agent.</p>
+    <p style="margin-top:.9vh"><span class="k mono" style="font-size:1vw">skills/weather-reporter/SKILL.md</span></p>
   </div>
 </section>
 
@@ -560,7 +561,7 @@ function onEnter(i){
   if(i===4)runTerm();
   if(i===6)runLoop();else clearInterval(loopTimer);
   if(i===12)runFan();
-  const quips={1:'A chatbot with hands! 🤖',2:'Pick your quests! 🗺️',4:'Boot it up! ⚡',6:'Save, then reload! 🔁',8:'Hands out! 🙌',9:'Roll the dice! 🎲',12:'Pow! Superpowers! ⚡'};
+  const quips={1:'A chatbot with hands! 🤖',2:'Pick your quests! 🗺️',4:'Boot it up! ⚡',6:'Save, then reload! 🔁',8:'Hands out! 🙌',9:'Fetch the weather! 🌦️',12:'Pow! Superpowers! ⚡'};
   if(quips[i])mascotSay(quips[i]);
 }
 setInterval(()=>{const c=document.getElementById('cursor');if(c)c.style.opacity=c.style.opacity==='0'?'1':'0';},500);
