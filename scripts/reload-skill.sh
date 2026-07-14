@@ -55,4 +55,9 @@ done
 bash "$HERE/start-gateway.sh"
 
 echo ""
-echo "Done. Refresh your agent's browser tab, then ask for your skill in the chat."
+echo "=================================================================="
+echo "  Done — now REFRESH your agent's browser tab (F5) BEFORE sending"
+echo "  another message. The gateway just restarted; chatting through"
+echo "  the old page causes 'reply session initialization conflicted'."
+echo "=================================================================="
+echo "After the refresh, ask for your skill in the chat."
