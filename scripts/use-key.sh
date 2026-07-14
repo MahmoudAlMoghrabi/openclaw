@@ -57,6 +57,17 @@ fi
 # patch-config.js fixes all three (see that file for the why).
 node "$HERE/patch-config.js"
 
+# Best-effort: register the workshop MCP tool server (dice + live weather)
+# through the CLI. Injecting `mcpServers` into openclaw.json is NOT valid on
+# OpenClaw 2026.6.11 (the schema rejects unknown keys and the gateway refuses
+# the config), so the CLI is the only safe route; if this version has no such
+# command, skip quietly — everything else still works.
+if "$CLI" mcp add workshop-tools -- node "$HERE/../mcp/workshop-tools.js" >/dev/null 2>&1; then
+  echo "Workshop MCP tools registered (roll_dice, get_weather)."
+else
+  echo "  (This OpenClaw version has no 'mcp add' command; dice/weather tools skipped.)"
+fi
+
 # Install the workshop skills. OpenClaw reads skills from ~/.openclaw/workspace/
 # skills (a COPY it makes), NOT from this repo, so the agent can't see them until
 # we install them explicitly. Non-fatal if already installed (re-runs).
