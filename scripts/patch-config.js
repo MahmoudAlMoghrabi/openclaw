@@ -49,8 +49,8 @@ delete c.mcpServers;
 // NOTE on MCP: do NOT add an `mcpServers` key here. OpenClaw 2026.6.11
 // validates the config schema and rejects unknown root keys ("<root>:
 // Invalid input", gateway refuses to start) — confirmed in the July 14 dry
-// run. The workshop MCP server (mcp/workshop-tools.js) is registered from
-// use-key.sh via the CLI instead, if this version supports it.
+// run. OpenClaw has no MCP support at all (docs.openclaw.ai); the "real
+// tools" demo is the weather-reporter skill + the built-in web_fetch tool.
 
 fs.writeFileSync(cfgPath, JSON.stringify(c, null, 2));
 console.log(
