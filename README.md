@@ -124,6 +124,13 @@ green, run:
 ./scripts/healthcheck.sh
 ```
 
+**Seeing "reply session initialization conflicted"?** Keep only ONE agent
+tab open, then run the reset button and follow what it prints:
+
+```
+./scripts/reset-agent.sh
+```
+
 ---
 
 <div align="center">
