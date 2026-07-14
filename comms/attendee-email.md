@@ -27,12 +27,12 @@ early. Brand-new accounts sometimes need a quick phone verification, and you do
 not want to be doing that during the session.
 
 **2. Open this link once to make sure it loads on your laptop:**
-https://codespaces.new/MahmoudAlMoghrabi/openclaw?quickstart=1
-This is the same link you will use at the workshop; today, just check that the
-page loads (no need to click anything on it yet). If you are on a work laptop,
-some company networks block tools like this. If the page does not load, try a
-personal laptop, or let us know ahead of time so we can sort it out before the
-day.
+https://tinyurl.com/aiGarage
+Those are the workshop slides — the same page we will all start from at the
+session (the big launch button on the first slide is for workshop day; no
+need to click it now). If you are on a work laptop, some company networks
+block tools like this. If the page does not load, try a personal laptop, or
+let us know ahead of time so we can sort it out before the day.
 
 **3. Bring that same laptop, charged, with its charger,** and a modern browser
 (Chrome, Edge, or Firefox).

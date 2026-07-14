@@ -169,6 +169,57 @@ a.btn{text-decoration:none;display:inline-block}
 /* chrome */
 #confetti{position:fixed;inset:0;z-index:80;pointer-events:none}
 #bar{position:fixed;top:0;left:0;height:8px;z-index:60;background:repeating-linear-gradient(90deg,var(--yellow) 0 14px,var(--red) 14px 28px,var(--teal) 28px 42px,var(--cyan) 42px 56px);transition:width .4s;border-bottom:2px solid var(--black)}
+/* ---------- phone / small screens: stacked, scrollable view ---------- */
+/* The 16:9 stage is for projectors and laptops. On a phone it letterboxes
+   into an unreadable strip, so below these breakpoints the deck becomes a
+   normal scrolling page: every slide visible, fixed readable font sizes,
+   arcade chrome hidden. Desktop behavior is untouched. */
+@media (max-width:700px),(max-height:500px){
+  body{overflow:auto}
+  #stage{position:static;display:block}
+  .deck{width:100%;height:auto;aspect-ratio:auto;overflow:visible;border:0;border-radius:0;box-shadow:none}
+  .slide{position:static;opacity:1;pointer-events:auto;display:block;padding:34px 18px;transition:none}
+  .slide .pop{opacity:1;transform:none;transition:none}
+  #bar,#count,#hud,#badges,#dots,#hint,#prev,#next,#mascot,.speech,#confetti{display:none!important}
+
+  .card-lg{max-width:none!important;padding:18px 16px;border-width:4px}
+  .slide h1{font-size:30px!important;line-height:1.05}
+  .slide h2{font-size:22px!important}
+  .slide p,.slide .lead{font-size:15px!important;max-width:none;line-height:1.5}
+  .slide div[style*="font-size"]{font-size:17px!important}
+  .slide span[style*="font-size"]{font-size:14px!important}
+  .tag{font-size:11px!important;letter-spacing:.08em}
+  .btn,a.btn{font-size:16px!important;padding:10px 16px}
+  .mono{font-size:12px!important}
+  .quest{max-width:none!important}
+  .quest li{font-size:16px;gap:10px;padding:8px 10px}
+  .quest .n{width:30px;height:30px;font-size:15px;border-radius:8px}
+  .quest .d{font-size:12px}
+  .toggle-wrap{flex-wrap:wrap;gap:8px}
+  .tg{font-size:14px;padding:8px 12px}
+  .compare{flex-direction:column;gap:10px}
+  .compare .col{padding:12px}
+  .compare h4{font-size:16px}
+  .compare li{font-size:14px}
+  .loop-wrap{flex-direction:column;gap:14px;align-items:stretch}
+  .loop svg{width:70vw;height:70vw;max-width:280px;max-height:280px;margin:0 auto}
+  .loop-steps .ls{font-size:14px;padding:8px 10px}
+  .loop-steps .ls .ln{width:26px;height:26px;font-size:13px}
+  .steps{gap:8px}
+  .step{padding:8px 10px;gap:10px}
+  .step .chk{width:24px;height:24px;font-size:14px}
+  .step .num2{font-size:15px}
+  .step b{font-size:15px}
+  .step p{font-size:13px!important}
+  .term{font-size:12px;margin-top:10px}
+  .term .bar i{width:10px;height:10px}
+  .super-wrap{flex-direction:column}
+  .super-list li{font-size:15px;opacity:1;padding:8px 10px}
+  .super-list li .swatch{width:16px;height:16px}
+  .fan{display:none}
+  .k{padding:1px 5px}
+}
+
 .nav-btn{position:fixed;top:50%;transform:translateY(-50%);z-index:70;width:54px;height:54px;border-radius:14px;
   border:4px solid var(--black);background:var(--yellow);color:var(--ink);font-size:24px;font-weight:800;cursor:pointer;box-shadow:var(--hard-sm);transition:.1s}
 .nav-btn:active{transform:translateY(-50%) translate(4px,4px);box-shadow:0 0 0 var(--black)}
@@ -566,6 +617,9 @@ function onEnter(i){
 setInterval(()=>{const c=document.getElementById('cursor');if(c)c.style.opacity=c.style.opacity==='0'?'1':'0';},500);
 setScore();go(0);
 setTimeout(()=>mascotSay('Hi! Press START 🦞'),600);
+/* On phones every slide is visible at once, so slide-enter animations never
+   fire — fill the demo terminal immediately instead. */
+if(matchMedia('(max-width:700px),(max-height:500px)').matches)runTerm();
 </script>
 </body>
 </html>
