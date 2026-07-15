@@ -19,9 +19,14 @@ const os = require("os");
 const path = require("path");
 
 // Single source of truth for the workshop model. Override with OPENCLAW_MODEL.
-// Primary: gemini-2.5-flash-lite ($0.10/$0.40). Overflow: gemini-3.1-flash-lite.
-const MODEL = process.env.OPENCLAW_MODEL || "google/gemini-2.5-flash-lite";
-const FALLBACK = process.env.OPENCLAW_FALLBACK || "google/gemini-3.1-flash-lite";
+// Primary: gemini-3.1-flash-lite — stable/GA, exact ID per
+// ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-lite.
+// Do NOT go back to gemini-2.5-flash-lite: Google 404s it for NEW accounts
+// as of July 2026 ("no longer available to new users"), which killed the
+// July 14 dry run. Fallback: gemini-3.5-flash (GA; pricier, but it only
+// absorbs transient failures, not steady traffic).
+const MODEL = process.env.OPENCLAW_MODEL || "google/gemini-3.1-flash-lite";
+const FALLBACK = process.env.OPENCLAW_FALLBACK || "google/gemini-3.5-flash";
 const PORT = process.env.OPENCLAW_PORT || "18789";
 
 const cfgPath = os.homedir() + "/.openclaw/openclaw.json";
