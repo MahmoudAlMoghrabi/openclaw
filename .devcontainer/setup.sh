@@ -7,7 +7,11 @@ set -euo pipefail
 # Set this to a version you confirmed works in your dry run. Do NOT ship
 # "latest" on the day: an OpenClaw release the night before could break setup.
 # ---------------------------------------------------------------------------
-OPENCLAW_VERSION="${OPENCLAW_VERSION:-2026.6.11}"
+# 2026.6.11 ships a session race ("reply session initialization conflicted",
+# github.com/openclaw/openclaw/issues/98220): the second message in a chat
+# collides with the first turn's metadata writes. 2026.7.1 carries the
+# retry fix — confirm it in the rehearsal before the event.
+OPENCLAW_VERSION="${OPENCLAW_VERSION:-2026.7.1}"
 
 echo "==> Installing OpenClaw (${OPENCLAW_VERSION})"
 npm install -g "openclaw@${OPENCLAW_VERSION}"

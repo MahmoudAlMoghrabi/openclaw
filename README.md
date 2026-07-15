@@ -125,8 +125,10 @@ green, run:
 ./scripts/healthcheck.sh
 ```
 
-**Seeing "reply session initialization conflicted"?** Keep only ONE agent
-tab open, then run the reset button and follow what it prints:
+**Seeing "reply session initialization conflicted"?** It's a timing hiccup,
+not you: **just send your message again.** If it happens on every single
+message, keep only ONE agent tab open and run the reset button, then follow
+what it prints:
 
 ```
 ./scripts/reset-agent.sh
