@@ -4,7 +4,10 @@ node_modules/
 .env.*
 /tmp/
 
-# Provisioned secrets and run artifacts: never commit these
+# Provisioned secrets and run artifacts: never commit these.
+# (keys/keys.enc is the ONE exception — it is encrypted and meant to ship.)
 keys/keys.csv
 keys/*.csv
 keys/projects.txt
+keys/raw-keys.txt
+keys/*.txt
