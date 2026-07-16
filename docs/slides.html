@@ -181,6 +181,7 @@ a.btn{text-decoration:none;display:inline-block}
   .slide{position:static;opacity:1;pointer-events:auto;display:block;padding:34px 18px;transition:none}
   .slide .pop{opacity:1;transform:none;transition:none}
   #bar,#count,#hud,#badges,#dots,#hint,#prev,#next,#mascot,.speech,#confetti{display:none!important}
+  #brand{position:static;margin:14px auto 0;width:fit-content}
 
   .card-lg{max-width:none!important;padding:18px 16px;border-width:4px}
   .slide h1{font-size:30px!important;line-height:1.05}
@@ -228,6 +229,8 @@ a.btn{text-decoration:none;display:inline-block}
 .dot-nav{width:11px;height:11px;border-radius:4px;border:none;background:#5a4a80;cursor:pointer;transition:.2s;padding:0}
 .dot-nav.on{background:var(--yellow);width:24px}
 #count{position:fixed;top:14px;right:16px;z-index:70;font-family:"Press Start 2P";color:#fff;font-size:11px;background:var(--black);padding:8px 12px;border-radius:10px;border:3px solid #000}
+#brand{position:fixed;top:12px;right:96px;z-index:70;background:var(--cream);border:3px solid var(--black);border-radius:10px;padding:5px 10px;box-shadow:4px 4px 0 rgba(0,0,0,.5)}
+#brand img{display:block;height:26px;width:auto}
 #hint{position:fixed;bottom:14px;right:16px;z-index:70;color:#d9cffb;font-size:12px;font-weight:600;opacity:.75}
 kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7px;font-size:11px}
 
@@ -237,6 +240,7 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
 <canvas id="confetti"></canvas>
 <div id="bar"></div>
 <div id="count"></div>
+<div id="brand"><img src="genesis-logo.png" alt="genesis ai garage"></div>
 <div id="hud"><span class="lob">🦞</span><span><span class="lbl arcade">SCORE</span><br><span class="sc arcade" id="score">000000</span></span></div>
 <div id="badges"></div>
 <button class="nav-btn" id="prev">◀</button>
