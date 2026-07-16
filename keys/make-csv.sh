@@ -21,7 +21,9 @@ fi
 
 COUNT=0
 echo "key_seq,project_id,key_name,api_key" > "$CSV"
-while IFS= read -r line; do
+# `|| [ -n "$line" ]` keeps the last line even when the file has no final
+# newline — a plain `while read` silently drops it.
+while IFS= read -r line || [ -n "$line" ]; do
   key="$(printf '%s' "$line" | tr -d '[:space:]')"
   [ -z "$key" ] && continue
   case "$key" in
