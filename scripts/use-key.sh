@@ -7,10 +7,24 @@
 #   then paste the key at the prompt and press Enter.
 set -euo pipefail
 
+HERE="$(cd "$(dirname "$0")" && pwd)"
+
 # Read the key WITHOUT displaying it. Preferred flow is no argument: we prompt
 # with a hidden read so the key never appears on screen, on a projector, or in
 # shell history. (Passing the key as an argument still works but is discouraged.)
 KEY="${1:-}"
+
+# A GEMINI_API_KEY already present in the environment — e.g. injected by an
+# account-level GitHub Codespaces secret, handy for facilitator dry runs —
+# is used automatically. Attendees have no such secret, so they move on to
+# the workshop unlock. Precedence: argument > environment > pool > prompt.
+KEY_FROM_ENV=0
+if [ -z "$KEY" ] && [ -n "${GEMINI_API_KEY:-}" ]; then
+  KEY="$GEMINI_API_KEY"
+  KEY_FROM_ENV=1
+  echo "Using GEMINI_API_KEY from the environment (Codespaces secret)."
+fi
+
 # Workshop mode: if the encrypted key pool ships with the repo, unlock ONE
 # key with the room passphrase + the attendee's slip number. The decrypted
 # pool never touches disk — it is piped straight into the row lookup.
@@ -49,6 +63,9 @@ if [ -z "$KEY" ]; then
     printf 'Paste your Gemini API key, then press Enter (it stays hidden): ' >&2
     read -rs KEY
     printf '\n' >&2
+    # Strip whitespace a copy-paste can smuggle in — invisible characters
+    # would fail the format check with no clue why.
+    KEY="$(printf '%s' "$KEY" | tr -d '[:space:]')"
     case "$KEY" in
       AIza*|AQ*) break ;;
       *) KEY=""; printf '  That does not look like a Gemini key (they start with AIza or AQ). Try again.\n' >&2 ;;
@@ -65,15 +82,18 @@ if ! command -v "$CLI" >/dev/null 2>&1; then
   CLI="clawdbot"
 fi
 
-HERE="$(cd "$(dirname "$0")" && pwd)"
-
 # Make the key available now and in future terminals. Update the line in place
 # if it already exists, so a replacement key never leaves a stale one behind.
+# Skip the .bashrc write when the key came from a Codespaces secret: GitHub
+# re-injects the (possibly rotated) secret on every start, and a stale
+# .bashrc export would run afterwards and shadow the fresh value.
 export GEMINI_API_KEY="$KEY"
-if grep -q "^export GEMINI_API_KEY=" "$HOME/.bashrc" 2>/dev/null; then
-  sed -i "s|^export GEMINI_API_KEY=.*|export GEMINI_API_KEY=\"$KEY\"|" "$HOME/.bashrc"
-else
-  echo "export GEMINI_API_KEY=\"$KEY\"" >> "$HOME/.bashrc"
+if [ "$KEY_FROM_ENV" != "1" ]; then
+  if grep -q "^export GEMINI_API_KEY=" "$HOME/.bashrc" 2>/dev/null; then
+    sed -i "s|^export GEMINI_API_KEY=.*|export GEMINI_API_KEY=\"$KEY\"|" "$HOME/.bashrc"
+  else
+    echo "export GEMINI_API_KEY=\"$KEY\"" >> "$HOME/.bashrc"
+  fi
 fi
 
 # Register the key. This OpenClaw version REQUIRES --accept-risk for
