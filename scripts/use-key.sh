@@ -28,6 +28,9 @@ if [ -z "$KEY" ]; then
     printf 'Paste your Gemini API key, then press Enter (it stays hidden): ' >&2
     read -rs KEY
     printf '\n' >&2
+    # Strip whitespace a copy-paste from a sheet/email can smuggle in —
+    # invisible characters would fail the format check with no clue why.
+    KEY="$(printf '%s' "$KEY" | tr -d '[:space:]')"
     case "$KEY" in
       AIza*|AQ*) break ;;
       *) KEY=""; printf '  That does not look like a Gemini key (they start with AIza or AQ). Try again.\n' >&2 ;;
