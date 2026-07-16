@@ -43,9 +43,10 @@ account, so no confidential work material, client information, or personal
 data. We will cover the rest of the safety ground rules in the intro.
 
 That is it. No prior experience with AI agents is needed, and there is nothing
-to install. We will hand you a key at the door and walk you through everything
-else. If you have never used GitHub before, come 10 minutes early and we will
-get you set up.
+to install. At the door we will hand you a numbered slip; it matches a key you
+will copy-paste from a link we share in the room, and we will walk you through
+everything else. If you have never used GitHub before, come 10 minutes early
+and we will get you set up.
 
 Anything not working, or any questions? Reply to [CONTACT EMAIL] by
 [REPLY-BY DAY] so we can fix it before the session.

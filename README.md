@@ -30,8 +30,10 @@ In the terminal at the bottom of the screen, run this and press **Enter**:
 ./scripts/use-key.sh
 ```
 
-It will ask for your key. Paste the key we handed you and press **Enter**. Your
-key stays hidden as you paste (nothing shows on screen), which is expected.
+It will ask for your key. **Copy** your key from the key sheet (the link is
+on the screen — the number on your slip is your row), then **paste** it at
+the prompt and press **Enter**. Your key stays hidden as you paste (nothing
+shows on screen), which is expected.
 
 Wait a few seconds until it says **All set.**
 
