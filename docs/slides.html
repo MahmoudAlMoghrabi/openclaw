@@ -332,7 +332,18 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   <p class="pop" style="font-weight:700;color:#063a52;font-size:1vw;margin-top:1.2vh">Tap each step to complete the level. If your agent replies, you did it. 🎉</p>
 </section>
 
-<!-- 6 WATCH A SKILL -->
+<!-- 6 STUCK -->
+<section class="slide bg-yellow">
+  <div class="pop"><span class="tag">Continue?</span></div>
+  <h1 class="pop ink" style="font-size:3.2vw;color:var(--ink);text-shadow:3px 3px 0 #fff">STUCK? IT IS NOT YOU 🛟</h1>
+  <div class="compare pop" style="margin-top:1.6vh">
+    <div class="col" style="background:#fff"><h4>🔁 "Overloaded" or "conflicted"?</h4><ul><li>Totally normal, not your fault. Just send it again.</li></ul></div>
+    <div class="col" style="background:#fff"><h4>🧊 Frozen?</h4><ul><li>Keep just <b>ONE</b> agent tab open. Run <span class="mono">start-gateway.sh</span>, then refresh.</li></ul></div>
+    <div class="col" style="background:#fff"><h4>🤝 Still stuck?</h4><ul><li>Grab a helper. It works in pairs.</li></ul></div>
+  </div>
+</section>
+
+<!-- 7 WATCH A SKILL -->
 <section class="slide bg-pink">
   <div class="pop card-lg" style="max-width:84%">
     <span class="tag" style="background:var(--pink);color:#fff">Level 2 · First skill</span>
@@ -347,7 +358,7 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   </div>
 </section>
 
-<!-- 7 MAGIC LOOP -->
+<!-- 8 MAGIC LOOP -->
 <section class="slide bg-cyan">
   <div class="pop"><span class="tag">Level 3 · The loop</span></div>
   <h1 class="pop" style="font-size:3vw">THE MAGIC LOOP 🔁</h1>
@@ -363,7 +374,7 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   </div>
 </section>
 
-<!-- 8 MAKE IT YOURS -->
+<!-- 9 MAKE IT YOURS -->
 <section class="slide bg-purple">
   <div class="pop card-lg">
     <span class="tag">Level 4 · Your turn</span>
@@ -378,7 +389,7 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   </div>
 </section>
 
-<!-- 9 MAKE IT ACT -->
+<!-- 10 MAKE IT ACT -->
 <section class="slide bg-red">
   <div class="pop card-lg" style="max-width:84%">
     <span class="tag" style="background:var(--red);color:#fff">Level 5 · Hands out</span>
@@ -389,7 +400,7 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   </div>
 </section>
 
-<!-- 10 REAL TOOLS -->
+<!-- 11 REAL TOOLS -->
 <section class="slide bg-pink">
   <div class="pop card-lg" style="max-width:84%">
     <span class="tag" style="background:var(--pink);color:#fff">Level 6 · Real tools</span>
@@ -403,7 +414,7 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   </div>
 </section>
 
-<!-- 11 AGENT BUILDS ONE -->
+<!-- 12 AGENT BUILDS ONE -->
 <section class="slide bg-teal">
   <div class="pop card-lg" style="max-width:82%">
     <span class="tag">Level 7 · Meta mode</span>
@@ -415,17 +426,6 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
     <span style="background:var(--purple);color:#fff;border:4px solid var(--black);border-radius:12px;padding:.8vh 1.2vw;font-weight:800;font-size:1.3vw;box-shadow:var(--hard-sm)">Propose</span>
     <span style="background:var(--yellow);border:4px solid var(--black);border-radius:12px;padding:.8vh 1.2vw;font-weight:800;font-size:1.3vw;box-shadow:var(--hard-sm)">Approve</span>
     <span style="background:var(--red);color:#fff;border:4px solid var(--black);border-radius:12px;padding:.8vh 1.2vw;font-weight:800;font-size:1.3vw;box-shadow:var(--hard-sm)">Done ✅</span>
-  </div>
-</section>
-
-<!-- 12 STUCK -->
-<section class="slide bg-yellow">
-  <div class="pop"><span class="tag">Continue?</span></div>
-  <h1 class="pop ink" style="font-size:3.2vw;color:var(--ink);text-shadow:3px 3px 0 #fff">STUCK? IT IS NOT YOU 🛟</h1>
-  <div class="compare pop" style="margin-top:1.6vh">
-    <div class="col" style="background:#fff"><h4>🔁 "Overloaded" or "conflicted"?</h4><ul><li>Totally normal, not your fault. Just send it again.</li></ul></div>
-    <div class="col" style="background:#fff"><h4>🧊 Frozen?</h4><ul><li>Keep just <b>ONE</b> agent tab open. Run <span class="mono">start-gateway.sh</span>, then refresh.</li></ul></div>
-    <div class="col" style="background:#fff"><h4>🤝 Still stuck?</h4><ul><li>Grab a helper. It works in pairs.</li></ul></div>
   </div>
 </section>
 
@@ -609,9 +609,9 @@ function runFan(){wedges.forEach((w,i)=>{w.style.transform='scaleY(0)';setTimeou
 /* per-slide */
 function onEnter(i){
   if(i===4)runTerm();
-  if(i===6)runLoop();else clearInterval(loopTimer);
+  if(i===7)runLoop();else clearInterval(loopTimer);
   if(i===12)runFan();
-  const quips={1:'A chatbot with hands! 🤖',2:'Pick your quests! 🗺️',4:'Boot it up! ⚡',6:'Save, then reload! 🔁',8:'Hands out! 🙌',9:'Fetch the weather! 🌦️',12:'Pow! Superpowers! ⚡'};
+  const quips={1:'A chatbot with hands! 🤖',2:'Pick your quests! 🗺️',4:'Boot it up! ⚡',5:'Not your fault! 🛟',7:'Save, then reload! 🔁',9:'Hands out! 🙌',10:'Fetch the weather! 🌦️',12:'Pow! Superpowers! ⚡'};
   if(quips[i])mascotSay(quips[i]);
 }
 setInterval(()=>{const c=document.getElementById('cursor');if(c)c.style.opacity=c.style.opacity==='0'?'1':'0';},500);
