@@ -11,16 +11,37 @@ set -euo pipefail
 # with a hidden read so the key never appears on screen, on a projector, or in
 # shell history. (Passing the key as an argument still works but is discouraged.)
 KEY="${1:-}"
-# A GEMINI_API_KEY already present in the environment — e.g. injected by an
-# account-level GitHub Codespaces secret, handy for facilitator dry runs —
-# is used automatically. Attendees have no such secret, so they still get
-# the hidden prompt. Precedence: explicit argument > environment > prompt.
-KEY_FROM_ENV=0
-if [ -z "$KEY" ] && [ -n "${GEMINI_API_KEY:-}" ]; then
-  KEY="$GEMINI_API_KEY"
-  KEY_FROM_ENV=1
-  echo "Using GEMINI_API_KEY from the environment (Codespaces secret)."
+# Workshop mode: if the encrypted key pool ships with the repo, unlock ONE
+# key with the room passphrase + the attendee's slip number. The decrypted
+# pool never touches disk — it is piped straight into the row lookup.
+# (Press Enter at the slip-number prompt to skip and paste your own key,
+# e.g. when running this at home after the pool has been revoked.)
+ENC="$HERE/../keys/keys.enc"
+if [ -z "$KEY" ] && [ -f "$ENC" ]; then
+  echo "Workshop unlock: type the passphrase shown on the screen, then your"
+  echo "slip number. (No slip? Press Enter at the number to paste your own key.)"
+  for attempt in 1 2 3; do
+    printf 'Passphrase (stays hidden): ' >&2
+    read -rs PASS
+    printf '\n' >&2
+    printf 'Your slip number: ' >&2
+    read -r NUM
+    NUM="$(printf '%s' "$NUM" | tr -d '[:space:]')"
+    if [ -z "$NUM" ]; then
+      echo "  Skipping the pool; you can paste a key directly below."
+      break
+    fi
+    KEY="$(printf '%s\n' "$PASS" | openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 \
+            -in "$ENC" -pass stdin 2>/dev/null \
+          | awk -F, -v n="$NUM" '$1==n{print $4; exit}')" || KEY=""
+    KEY="$(printf '%s' "$KEY" | tr -d '[:space:]')"
+    case "$KEY" in
+      AIza*|AQ*) echo "  Key #$NUM unlocked."; break ;;
+      *) KEY=""; echo "  Could not unlock key #$NUM. Check the passphrase and number, then try again." >&2 ;;
+    esac
+  done
 fi
+
 if [ -z "$KEY" ]; then
   # Prompt with a hidden read (up to 3 tries) and sanity-check the format, so
   # the key never appears on screen, on a projector, or in shell history.
@@ -28,9 +49,6 @@ if [ -z "$KEY" ]; then
     printf 'Paste your Gemini API key, then press Enter (it stays hidden): ' >&2
     read -rs KEY
     printf '\n' >&2
-    # Strip whitespace a copy-paste from a sheet/email can smuggle in —
-    # invisible characters would fail the format check with no clue why.
-    KEY="$(printf '%s' "$KEY" | tr -d '[:space:]')"
     case "$KEY" in
       AIza*|AQ*) break ;;
       *) KEY=""; printf '  That does not look like a Gemini key (they start with AIza or AQ). Try again.\n' >&2 ;;
@@ -51,16 +69,11 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 
 # Make the key available now and in future terminals. Update the line in place
 # if it already exists, so a replacement key never leaves a stale one behind.
-# Skip the .bashrc write when the key came from a Codespaces secret: GitHub
-# re-injects the (possibly rotated) secret on every start, and a stale
-# .bashrc export would run afterwards and shadow the fresh value.
 export GEMINI_API_KEY="$KEY"
-if [ "$KEY_FROM_ENV" != "1" ]; then
-  if grep -q "^export GEMINI_API_KEY=" "$HOME/.bashrc" 2>/dev/null; then
-    sed -i "s|^export GEMINI_API_KEY=.*|export GEMINI_API_KEY=\"$KEY\"|" "$HOME/.bashrc"
-  else
-    echo "export GEMINI_API_KEY=\"$KEY\"" >> "$HOME/.bashrc"
-  fi
+if grep -q "^export GEMINI_API_KEY=" "$HOME/.bashrc" 2>/dev/null; then
+  sed -i "s|^export GEMINI_API_KEY=.*|export GEMINI_API_KEY=\"$KEY\"|" "$HOME/.bashrc"
+else
+  echo "export GEMINI_API_KEY=\"$KEY\"" >> "$HOME/.bashrc"
 fi
 
 # Register the key. This OpenClaw version REQUIRES --accept-risk for

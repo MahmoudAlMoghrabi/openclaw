@@ -324,7 +324,7 @@ kbd{background:var(--black);color:var(--yellow);border-radius:5px;padding:2px 7p
   <div class="loop-wrap pop" style="align-items:stretch;margin-top:1.4vh">
     <div class="steps" style="flex:1.3">
       <div class="step" data-step data-pts="15"><div class="chk">✓</div><div><span class="num2">1</span> <b>Open a Codespace</b><p><a href="https://codespaces.new/MahmoudAlMoghrabi/openclaw?quickstart=1" target="_blank" rel="noopener" style="color:var(--purple);font-weight:800">Click here to launch it</a> (opens a new tab), then hit the green Create codespace button. Already did it from the first slide? Tick and move on.</p></div></div>
-      <div class="step" data-step data-pts="15"><div class="chk">✓</div><div><span class="num2">2</span> <b>Drop in your key</b><p>Copy your key from the key sheet (your slip number = your row), run <span class="mono">./scripts/use-key.sh</span>, and paste when asked. It stays hidden. Wait for "All set."</p></div></div>
+      <div class="step" data-step data-pts="15"><div class="chk">✓</div><div><span class="num2">2</span> <b>Drop in your key</b><p>Run <span class="mono">./scripts/use-key.sh</span> — type the passphrase on the screen + your slip number. It stays hidden. Wait for "All set."</p></div></div>
       <div class="step" data-step data-pts="15"><div class="chk">✓</div><div><span class="num2">3</span> <b>Meet your agent</b><p>Its tab opens by itself when the script finishes (the link is also printed in the terminal). Leave both boxes empty, hit Connect, say hi.</p></div></div>
     </div>
     <div class="term" style="flex:1"><div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i></div><div><span style="color:#7fd8ff">you@codespace</span>:~$ <span id="termType"></span><span id="cursor">▋</span></div></div>
@@ -559,7 +559,7 @@ let termTimer=null;
 function runTerm(){const el=document.getElementById('termType');if(!el)return;
   const full='./scripts/use-key.sh';let i=0;clearInterval(termTimer);el.innerHTML='';
   termTimer=setInterval(()=>{if(i<=full.length){el.textContent=full.slice(0,i);i++;}
-    else{clearInterval(termTimer);el.innerHTML=full+'<br>🔑 paste your key (hidden) ••••••<br><span class="ok">✓ All set → your agent opens in a new tab</span>';}},60);}
+    else{clearInterval(termTimer);el.innerHTML=full+'<br>🔑 passphrase + slip number (hidden) ••••••<br><span class="ok">✓ Key #23 unlocked → your agent opens in a new tab</span>';}},60);}
 
 /* magic loop */
 const loopNodes=document.getElementById('loopNodes');
