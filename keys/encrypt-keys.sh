@@ -32,9 +32,16 @@ if [ "$P1" != "$P2" ]; then
   echo "Passphrases do not match."
   exit 1
 fi
-if [ "${#P1}" -lt 12 ]; then
+if [ "${#P1}" -lt 12 ] && [ "${ALLOW_SHORT_PASSPHRASE:-}" != "1" ]; then
   echo "Too short (${#P1} chars). The blob is public: use at least 12"
   echo "characters, e.g. three random words."
+  echo ""
+  echo "Deliberately want a simple one-word room passphrase anyway? Re-run:"
+  echo "    ALLOW_SHORT_PASSPHRASE=1 ./keys/encrypt-keys.sh"
+  echo "Understand the trade: anyone who finds the public blob can crack a"
+  echo "dictionary word in seconds, so the keys are only as safe as they are"
+  echo "short-lived. Push the blob shortly before the event, revoke the keys"
+  echo "and delete keys.enc right after."
   exit 1
 fi
 

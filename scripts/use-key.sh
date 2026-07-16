@@ -25,33 +25,34 @@ if [ -z "$KEY" ] && [ -n "${GEMINI_API_KEY:-}" ]; then
   echo "Using GEMINI_API_KEY from the environment (Codespaces secret)."
 fi
 
-# Workshop mode: if the encrypted key pool ships with the repo, unlock ONE
-# key with the room passphrase + the attendee's slip number. The decrypted
-# pool never touches disk — it is piped straight into the row lookup.
-# (Press Enter at the slip-number prompt to skip and paste your own key,
+# Workshop mode: if the encrypted key pool ships with the repo, the room
+# passphrase unlocks a key — the script picks one at random, which also
+# spreads attendees across the pool. The decrypted pool never touches disk.
+# (Press Enter at the passphrase to skip and paste your own key instead,
 # e.g. when running this at home after the pool has been revoked.)
 ENC="$HERE/../keys/keys.enc"
 if [ -z "$KEY" ] && [ -f "$ENC" ]; then
-  echo "Workshop unlock: type the passphrase shown on the screen, then your"
-  echo "slip number. (No slip? Press Enter at the number to paste your own key.)"
+  echo "Workshop unlock: type the passphrase shown on the screen."
+  echo "(No passphrase? Press Enter to paste your own key instead.)"
   for attempt in 1 2 3; do
     printf 'Passphrase (stays hidden): ' >&2
     read -rs PASS
     printf '\n' >&2
-    printf 'Your slip number: ' >&2
-    read -r NUM
-    NUM="$(printf '%s' "$NUM" | tr -d '[:space:]')"
-    if [ -z "$NUM" ]; then
+    if [ -z "$PASS" ]; then
       echo "  Skipping the pool; you can paste a key directly below."
       break
     fi
-    KEY="$(printf '%s\n' "$PASS" | openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 \
-            -in "$ENC" -pass stdin 2>/dev/null \
-          | awk -F, -v n="$NUM" '$1==n{print $4; exit}')" || KEY=""
-    KEY="$(printf '%s' "$KEY" | tr -d '[:space:]')"
+    ROWS="$(printf '%s\n' "$PASS" | openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 \
+             -in "$ENC" -pass stdin 2>/dev/null \
+           | awk -F, 'NR>1 && $4!="" {print $4}')" || ROWS=""
+    if [ -n "$ROWS" ]; then
+      N="$(printf '%s\n' "$ROWS" | wc -l | tr -d '[:space:]')"
+      PICK=$(( (RANDOM % N) + 1 ))
+      KEY="$(printf '%s\n' "$ROWS" | sed -n "${PICK}p" | tr -d '[:space:]')"
+    fi
     case "$KEY" in
-      AIza*|AQ*) echo "  Key #$NUM unlocked."; break ;;
-      *) KEY=""; echo "  Could not unlock key #$NUM. Check the passphrase and number, then try again." >&2 ;;
+      AIza*|AQ*) echo "  Key unlocked (#$PICK of $N in the pool)."; break ;;
+      *) KEY=""; echo "  That passphrase did not unlock the pool. Check the screen and try again." >&2 ;;
     esac
   done
 fi

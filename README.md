@@ -30,11 +30,10 @@ In the terminal at the bottom of the screen, run this and press **Enter**:
 ./scripts/use-key.sh
 ```
 
-It asks for two things, both given to you at the session: the **workshop
-passphrase** (on the screen) and **your slip number** (on the slip from the
-door). Type them and press **Enter**. The passphrase stays hidden as you
-type (nothing shows on screen), which is expected — it unlocks your own
-personal key and sets everything up.
+It asks for the **workshop passphrase** — it's on the screen at the
+session. Type it and press **Enter**. It stays hidden as you type (nothing
+shows on screen), which is expected — it unlocks a key for you and sets
+everything up.
 
 Wait a few seconds until it says **All set.**
 
