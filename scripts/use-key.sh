@@ -11,6 +11,16 @@ set -euo pipefail
 # with a hidden read so the key never appears on screen, on a projector, or in
 # shell history. (Passing the key as an argument still works but is discouraged.)
 KEY="${1:-}"
+# A GEMINI_API_KEY already present in the environment — e.g. injected by an
+# account-level GitHub Codespaces secret, handy for facilitator dry runs —
+# is used automatically. Attendees have no such secret, so they still get
+# the hidden prompt. Precedence: explicit argument > environment > prompt.
+KEY_FROM_ENV=0
+if [ -z "$KEY" ] && [ -n "${GEMINI_API_KEY:-}" ]; then
+  KEY="$GEMINI_API_KEY"
+  KEY_FROM_ENV=1
+  echo "Using GEMINI_API_KEY from the environment (Codespaces secret)."
+fi
 if [ -z "$KEY" ]; then
   # Prompt with a hidden read (up to 3 tries) and sanity-check the format, so
   # the key never appears on screen, on a projector, or in shell history.
@@ -38,11 +48,16 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 
 # Make the key available now and in future terminals. Update the line in place
 # if it already exists, so a replacement key never leaves a stale one behind.
+# Skip the .bashrc write when the key came from a Codespaces secret: GitHub
+# re-injects the (possibly rotated) secret on every start, and a stale
+# .bashrc export would run afterwards and shadow the fresh value.
 export GEMINI_API_KEY="$KEY"
-if grep -q "^export GEMINI_API_KEY=" "$HOME/.bashrc" 2>/dev/null; then
-  sed -i "s|^export GEMINI_API_KEY=.*|export GEMINI_API_KEY=\"$KEY\"|" "$HOME/.bashrc"
-else
-  echo "export GEMINI_API_KEY=\"$KEY\"" >> "$HOME/.bashrc"
+if [ "$KEY_FROM_ENV" != "1" ]; then
+  if grep -q "^export GEMINI_API_KEY=" "$HOME/.bashrc" 2>/dev/null; then
+    sed -i "s|^export GEMINI_API_KEY=.*|export GEMINI_API_KEY=\"$KEY\"|" "$HOME/.bashrc"
+  else
+    echo "export GEMINI_API_KEY=\"$KEY\"" >> "$HOME/.bashrc"
+  fi
 fi
 
 # Register the key. This OpenClaw version REQUIRES --accept-risk for
