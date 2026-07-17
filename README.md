@@ -24,15 +24,18 @@ reopens the Codespace you already made.
 
 ## 🔑 2. Drop in your key
 
-In the terminal at the bottom of the screen, run this and press **Enter**:
+You need a **free Gemini API key**: go to
+[aistudio.google.com/apikey](https://aistudio.google.com/apikey), sign in with
+any Google account, and click **Create API key**. Copy it.
+
+Then, in the terminal at the bottom of the screen, run this and press **Enter**:
 
 ```
 ./scripts/use-key.sh
 ```
 
-It asks for the **workshop passphrase** — it's on the screen at the
-session. Type it and press **Enter**. It stays hidden as you type (nothing
-shows on screen), which is expected — it unlocks a key for you and sets
+Paste your key at the prompt and press **Enter**. It stays hidden as you type
+(nothing shows on screen), which is expected — it registers the key and sets
 everything up.
 
 Wait a few seconds until it says **All set.**

@@ -15,9 +15,8 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 KEY="${1:-}"
 
 # A GEMINI_API_KEY already present in the environment — e.g. injected by an
-# account-level GitHub Codespaces secret, handy for facilitator dry runs —
-# is used automatically. Attendees have no such secret, so they move on to
-# the workshop unlock. Precedence: argument > environment > pool > prompt.
+# account-level GitHub Codespaces secret — is used automatically.
+# Precedence: argument > environment > prompt.
 KEY_FROM_ENV=0
 if [ -z "$KEY" ] && [ -n "${GEMINI_API_KEY:-}" ]; then
   KEY="$GEMINI_API_KEY"
@@ -25,39 +24,8 @@ if [ -z "$KEY" ] && [ -n "${GEMINI_API_KEY:-}" ]; then
   echo "Using GEMINI_API_KEY from the environment (Codespaces secret)."
 fi
 
-# Workshop mode: if the encrypted key pool ships with the repo, the room
-# passphrase unlocks a key — the script picks one at random, which also
-# spreads attendees across the pool. The decrypted pool never touches disk.
-# (Press Enter at the passphrase to skip and paste your own key instead,
-# e.g. when running this at home after the pool has been revoked.)
-ENC="$HERE/../keys/keys.enc"
-if [ -z "$KEY" ] && [ -f "$ENC" ]; then
-  echo "Workshop unlock: type the passphrase shown on the screen."
-  echo "(No passphrase? Press Enter to paste your own key instead.)"
-  for attempt in 1 2 3; do
-    printf 'Passphrase (stays hidden): ' >&2
-    read -rs PASS
-    printf '\n' >&2
-    if [ -z "$PASS" ]; then
-      echo "  Skipping the pool; you can paste a key directly below."
-      break
-    fi
-    ROWS="$(printf '%s\n' "$PASS" | openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 \
-             -in "$ENC" -pass stdin 2>/dev/null \
-           | awk -F, 'NR>1 && $4!="" {print $4}')" || ROWS=""
-    if [ -n "$ROWS" ]; then
-      N="$(printf '%s\n' "$ROWS" | wc -l | tr -d '[:space:]')"
-      PICK=$(( (RANDOM % N) + 1 ))
-      KEY="$(printf '%s\n' "$ROWS" | sed -n "${PICK}p" | tr -d '[:space:]')"
-    fi
-    case "$KEY" in
-      AIza*|AQ*) echo "  Key unlocked (#$PICK of $N in the pool)."; break ;;
-      *) KEY=""; echo "  That passphrase did not unlock the pool. Check the screen and try again." >&2 ;;
-    esac
-  done
-fi
-
 if [ -z "$KEY" ]; then
+  echo "You need a free Gemini API key: https://aistudio.google.com/apikey"
   # Prompt with a hidden read (up to 3 tries) and sanity-check the format, so
   # the key never appears on screen, on a projector, or in shell history.
   for attempt in 1 2 3; do
